@@ -15,66 +15,79 @@ public class WebSocket : MonoBehaviour
 
     public String Uri;
 
+    public WebSocketState State { get { return ws.State; } }
+
     private ClientWebSocket ws;
     private ConcurrentQueue<string> incMessages = new ConcurrentQueue<string>();
     ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[1024]);
 
+    private CancellationTokenSource cts;
+
+
     public void Start()
     {
-        if (Enabled)
-        {
-            ws = new ClientWebSocket();
-            connect();
-        }
+        ws = new ClientWebSocket();
+
+        cts = new CancellationTokenSource();
+        cts.Token.ThrowIfCancellationRequested();
     }
 
-    private async void connect()
+    public async void Connect()
     {
         Debug.Log("Connecting to: " + Uri);
-        await ws.ConnectAsync(new System.Uri(Uri), CancellationToken.None);
+        
+        await ws.ConnectAsync(new System.Uri(Uri), cts.Token);
         while (ws.State == WebSocketState.Connecting)
         {
             Debug.Log("Waiting to connect...");
-            Task.Delay(50).Wait();
+            Task.Delay(1000).Wait();
         }
         Debug.Log("Connect status: " + ws.State);
-        
-        if (ws.State == WebSocketState.Open)
-        {
-            Debug.Log("Listen...");
-            listen();
-        }
     }
 
-    private async void listen()
+    public async Task<string> Listen()
     {
         if (ws.State == WebSocketState.Open)
         {
+            Debug.Log("Listen...");
 
             buffer = new ArraySegment<byte>(new byte[1024]);
-            WebSocketReceiveResult bytesIn = await ws.ReceiveAsync(buffer, CancellationToken.None);
+
+            WebSocketReceiveResult bytesIn = await ws.ReceiveAsync(buffer, cts.Token);
             String msg = Encoding.UTF8.GetString(buffer.Array, 0, bytesIn.Count);
-            Debug.Log(msg);
             
-            listen();
+            Debug.Log($"Received: \n{msg}");
+
+            return msg;
+        }
+        else
+        {
+            throw WebSocketException("WebSocket state is not open.");
         }
     }
 
     void OnApplicationQuit()
     {
-        close();
+        Close();
     }
 
-    private async void close()
+    public async void Close()
     {
         try
         {
+            cts.Cancel();
             await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing app.", CancellationToken.None);
             Debug.Log("WebSocket connection closed.");
-        } catch(Exception e)
-        {
-            
         }
+        catch (Exception e)
+        {
+            throw new WebSocketException("Failed to close connection.");
+        }
+    }
+
+    private Exception WebSocketException(string v)
+    {
+        throw new Exception(v);
     }
 
 }
