@@ -10,10 +10,13 @@ public class PlayerMovementBehavior : MonoBehaviour
 
     protected Vector2 Direction;
 
+    private BciController _bciInput;
+
     // Start is called before the first frame update
     void Start()
     {
         Direction = Vector2.zero;
+        _bciInput = gameObject.GetComponent<BciController>();
     }
 
     // Update is called once per frame
@@ -26,5 +29,13 @@ public class PlayerMovementBehavior : MonoBehaviour
     void FixedUpdate()
     {
         transform.Translate(Direction * Speed * Time.deltaTime);
+
+        if (_bciInput != null && _bciInput.State == BciController.BciControllerState.Connected)
+        {
+            BciMentalInput input = _bciInput.Input;
+
+            transform.Translate(input.ToDirection() * Speed * Time.deltaTime);
+        }
     }
+
 }

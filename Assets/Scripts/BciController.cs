@@ -8,30 +8,26 @@ using UnityEngine;
 public class BciController : MonoBehaviour
 {
     public WebSocket ws;
-    public float rate;
+    public BciControllerState State => _state;
+    public BciMentalInput Input => _input;
 
-    private BciMentalInput input;
+    private BciMentalInput _input;
+
+    private BciControllerState _state = BciControllerState.Disabled;
 
     // Start is called before the first frame update
     void Start()
     {
+        _state = BciControllerState.Disabled;
         if (ws.Enabled)
         {
+            _state = BciControllerState.Connecting;
             ws.Connect();
-            input = new BciMentalInput();
+            _input = new BciMentalInput();
 
+            _state = BciControllerState.Connected;
             Listen();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    void FixedUpdate()
-    {
-        
     }
 
     private async void Listen()
@@ -42,18 +38,26 @@ public class BciController : MonoBehaviour
 
             try
             {
-                input = JsonUtility.FromJson<BciMentalInput>(msg);
+                _input = JsonUtility.FromJson<BciMentalInput>(msg);
+                print($"input parsed to: {_input}");
             }
             catch (Exception e)
             {
                 throw new Exception($"Could not convert data to BCI Input.\n data = {msg}\n {e}");
             }
-
         }
         if (ws.Enabled)
         {
+            await Task.Delay(50);
             Listen();
         }
+    }
+
+    public enum BciControllerState
+    {
+        Disabled,
+        Connecting,
+        Connected
     }
 
 }

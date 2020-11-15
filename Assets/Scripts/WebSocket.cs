@@ -12,7 +12,6 @@ using UnityEngine;
 public class WebSocket : MonoBehaviour
 {
     public bool Enabled;
-
     public String Uri;
 
     public WebSocketState State { get { return ws.State; } }
@@ -20,9 +19,7 @@ public class WebSocket : MonoBehaviour
     private ClientWebSocket ws;
     private ConcurrentQueue<string> incMessages = new ConcurrentQueue<string>();
     ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[1024]);
-
     private CancellationTokenSource cts;
-
 
     public void Start()
     {
@@ -32,6 +29,9 @@ public class WebSocket : MonoBehaviour
         cts.Token.ThrowIfCancellationRequested();
     }
 
+    /// <summary>
+    /// Sets up a connection.
+    /// </summary>
     public async void Connect()
     {
         Debug.Log("Connecting to: " + Uri);
@@ -45,6 +45,10 @@ public class WebSocket : MonoBehaviour
         Debug.Log("Connect status: " + ws.State);
     }
 
+    /// <summary>
+    /// Returns incoming messages.
+    /// </summary>
+    /// <returns>String</returns>
     public async Task<string> Listen()
     {
         if (ws.State == WebSocketState.Open)
@@ -66,11 +70,9 @@ public class WebSocket : MonoBehaviour
         }
     }
 
-    void OnApplicationQuit()
-    {
-        Close();
-    }
-
+    /// <summary>
+    /// Closes the WebSocket connection.
+    /// </summary>
     public async void Close()
     {
         try
@@ -79,10 +81,15 @@ public class WebSocket : MonoBehaviour
             await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing app.", CancellationToken.None);
             Debug.Log("WebSocket connection closed.");
         }
-        catch (Exception e)
+        catch (Exception)
         {
             throw new WebSocketException("Failed to close connection.");
         }
+    }
+
+    void OnApplicationQuit()
+    {
+        Close();
     }
 
     private Exception WebSocketException(string v)
