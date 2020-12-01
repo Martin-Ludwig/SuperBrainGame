@@ -75,15 +75,18 @@ public class WebSocket : MonoBehaviour
     /// </summary>
     public async void Close()
     {
-        try
+        if (ws != null && ws.State == WebSocketState.Open)
         {
-            cts.Cancel();
-            await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing app.", CancellationToken.None);
-            Debug.Log("WebSocket connection closed.");
-        }
-        catch (Exception)
-        {
-            throw new WebSocketException("Failed to close connection.");
+            try
+            {
+                cts.Cancel();
+                await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing app.", CancellationToken.None);
+                Debug.Log("WebSocket connection closed.");
+            }
+            catch (Exception)
+            {
+                throw new WebSocketException("Failed to close connection.");
+            }
         }
     }
 
