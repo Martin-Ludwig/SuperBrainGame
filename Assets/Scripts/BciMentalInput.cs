@@ -16,26 +16,28 @@ public class BciMentalInput
     // public int Pull;
     // ...
 
+    private int limit = 20;
+
     public Vector2 ToDirection()
     {
         Vector2 result = Vector2.zero;
-        if (Neutral > 50)
+        if (Neutral > limit)
         {
-            
+
         }
-        if (Left > 50)
+        if (Left > limit)
         {
             result.x = -1;
         }
-        if (Right > 50)
+        if (Right > limit)
         {
             result.x = 1;
         }
-        if (Lift > 50)
+        if (Lift > limit)
         {
             result.y = 1;
         }
-        if (Drop > 50)
+        if (Drop > limit)
         {
             result.y = -1;
         }
