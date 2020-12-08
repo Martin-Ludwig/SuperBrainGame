@@ -8,14 +8,18 @@ public class ShootingBehavior : MonoBehaviour
 
     private float NextAction;
     private bool IsShooting;
+    private EnemyBehavior Target;
 
     private BciController _bciInput;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         NextAction = Time.time + (Cooldown / 1000);
         IsShooting = false;
+        Target = null;
 
         _bciInput = gameObject.GetComponent<BciController>();
     }
@@ -46,8 +50,43 @@ public class ShootingBehavior : MonoBehaviour
         if (IsShooting && (Time.time >= NextAction))
         {
             Debug.Log("Shoot.");
+            Shoot();
             NextAction = Time.time + (Cooldown /1000);
         }
 
     }
+
+    private void Shoot()
+    {
+        if (Target != null)
+        {
+            if (Target.TryHit())
+            {
+                GameStats stats = gameObject.GetComponent<GameStats>();
+                if (stats != null)
+                {
+                    stats.IncreaseScore();
+                }
+            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "Enemy")
+        {
+            EnemyBehavior enemy = collider.GetComponent<EnemyBehavior>();
+            
+            Target = enemy;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.tag == "Enemy")
+        {
+            Target = null;
+        }
+    }
+
 }

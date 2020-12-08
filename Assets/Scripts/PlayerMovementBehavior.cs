@@ -7,6 +7,7 @@ public class PlayerMovementBehavior : MonoBehaviour
 {
 
     public float Speed = 5;
+    public bool SimpleMovement = true;
 
     protected Vector2 Direction;
 
@@ -22,8 +23,13 @@ public class PlayerMovementBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Direction.y = Input.GetAxisRaw("Vertical");
         Direction.x = Input.GetAxisRaw("Horizontal");
+
+        // Up-down movement is deactivated in simple movement mode
+        if (!SimpleMovement)
+        {
+            Direction.y = Input.GetAxisRaw("Vertical");
+        }
     }
 
     void FixedUpdate()
