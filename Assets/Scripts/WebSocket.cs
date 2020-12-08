@@ -16,17 +16,14 @@ public class WebSocket : MonoBehaviour
 
     public WebSocketState State { get { return ws.State; } }
 
-    private ClientWebSocket ws;
+    private ClientWebSocket ws = new ClientWebSocket();
     private ConcurrentQueue<string> incMessages = new ConcurrentQueue<string>();
     ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[1024]);
-    private CancellationTokenSource cts;
+    private CancellationTokenSource cts = new CancellationTokenSource();
 
-    public void Start()
+    void Start()
     {
-        ws = new ClientWebSocket();
-
-        cts = new CancellationTokenSource();
-        cts.Token.ThrowIfCancellationRequested();
+        
     }
 
     /// <summary>
@@ -35,7 +32,8 @@ public class WebSocket : MonoBehaviour
     public async void Connect()
     {
         Debug.Log("Connecting to: " + Uri);
-        
+
+        cts.Token.ThrowIfCancellationRequested();
         await ws.ConnectAsync(new System.Uri(Uri), cts.Token);
         while (ws.State == WebSocketState.Connecting)
         {

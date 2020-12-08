@@ -1040,8 +1040,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb3843ea0e4c8b46ad2af8802f24bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enabled: 0
-  Uri: 
+  Enabled: 1
+  Uri: ws://127.0.0.1:1880/ws/randomdata
 --- !u!4 &1351651830
 Transform:
   m_ObjectHideFlags: 0
@@ -1054,7 +1054,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1365789243
 GameObject:
@@ -1515,7 +1515,7 @@ PrefabInstance:
     - target: {fileID: 321532606103323549, guid: 86bdc33e6d931044eb2ca4f28f37a99a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 321532606103323549, guid: 86bdc33e6d931044eb2ca4f28f37a99a,
         type: 3}
