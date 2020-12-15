@@ -15,7 +15,6 @@ public class ButtonBehavior : MonoBehaviour
     public Button SettingsButton;
     public Button ExitButton;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -24,10 +23,12 @@ public class ButtonBehavior : MonoBehaviour
         {
             StartButton.onClick.AddListener(StartGame);
         }
+
         if (SettingsButton != null)
         {
             SettingsButton.onClick.AddListener(OpenSettings);
         }
+        
         if (ExitButton != null)
         {
             ExitButton.onClick.AddListener(ExitGame);
@@ -50,7 +51,7 @@ public class ButtonBehavior : MonoBehaviour
         Debug.Log("StartGame");
         StartButton.image.sprite = OnPressImage;
 
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene(1);
     }
 
     public void OpenSettings()
@@ -58,7 +59,7 @@ public class ButtonBehavior : MonoBehaviour
         Debug.Log("OpenSettings");
         SettingsButton.image.sprite = OnPressImage;
 
-        SceneManager.LoadScene("SettingsScene");
+        SceneManager.LoadScene(2);
     }
 
     public void ExitGame()

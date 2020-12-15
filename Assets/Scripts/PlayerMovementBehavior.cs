@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerMovementBehavior : MonoBehaviour
@@ -13,11 +12,16 @@ public class PlayerMovementBehavior : MonoBehaviour
 
     private BciController _bciInput;
 
+    private GameManagerBehavior _gameManager;
+    
     // Start is called before the first frame update
     void Start()
     {
         Direction = Vector2.zero;
         _bciInput = gameObject.GetComponent<BciController>();
+
+        GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameController");
+        _gameManager = gameManagerObject.GetComponent<GameManagerBehavior>();
     }
 
     // Update is called once per frame
@@ -33,6 +37,15 @@ public class PlayerMovementBehavior : MonoBehaviour
     }
 
     void FixedUpdate()
+    {
+        Debug.Log(_gameManager.IsRunning);
+        if (_gameManager == null || _gameManager.IsRunning)
+        {
+            MovePlayer();
+        }
+    }
+
+    void MovePlayer()
     {
         transform.Translate(Direction * Speed * Time.deltaTime);
 

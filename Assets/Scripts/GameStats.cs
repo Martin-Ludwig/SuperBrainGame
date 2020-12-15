@@ -7,7 +7,7 @@ public class GameStats : MonoBehaviour
 {
     private int Score = 0;
     public Text ScoreTextField;
-
+    public Text EndScreenScore;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +32,7 @@ public class GameStats : MonoBehaviour
         if (ScoreTextField != null)
         {
             ScoreTextField.text = Score.ToString();
+            EndScreenScore.text = $"Score: {Score}";
         }
     }
 }

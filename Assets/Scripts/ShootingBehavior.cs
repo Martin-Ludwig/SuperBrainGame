@@ -12,7 +12,7 @@ public class ShootingBehavior : MonoBehaviour
 
     private BciController _bciInput;
 
-
+    private GameManagerBehavior _gameManager;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +22,9 @@ public class ShootingBehavior : MonoBehaviour
         Target = null;
 
         _bciInput = gameObject.GetComponent<BciController>();
+
+        GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameController");
+        _gameManager = gameManagerObject.GetComponent<GameManagerBehavior>();
     }
 
     // Update is called once per frame
@@ -47,13 +50,15 @@ public class ShootingBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (IsShooting && (Time.time >= NextAction))
+        if (_gameManager == null || _gameManager.IsRunning)
         {
-            Debug.Log("Shoot.");
-            Shoot();
-            NextAction = Time.time + (Cooldown /1000);
+            if (IsShooting && (Time.time >= NextAction))
+            {
+                Debug.Log("Shoot.");
+                Shoot();
+                NextAction = Time.time + (Cooldown /1000);
+            }
         }
-
     }
 
     private void Shoot()

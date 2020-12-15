@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Settings_to_Menu : MonoBehaviour
+public class SceneSwitch : MonoBehaviour
 {
 
-    // Start is called before the first frame update
-    void Start()
+    public void ChangeScene(string SceneName)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        if (SceneName == null)
+        { }
+        else
+        {
+            SceneManager.LoadScene(SceneName);
+        }
         
     }
 }
