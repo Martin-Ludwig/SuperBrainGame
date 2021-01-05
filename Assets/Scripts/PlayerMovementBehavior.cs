@@ -38,7 +38,6 @@ public class PlayerMovementBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log(_gameManager.IsRunning);
         if (_gameManager == null || _gameManager.IsRunning)
         {
             MovePlayer();

@@ -6,47 +6,54 @@ using UnityEngine;
 [Serializable]
 public class BciMentalInput
 {
+    public int Threshold = 20;
+
     public int Neutral;
     public int Left;
     public int Right;
-    public int Lift;
-    public int Drop;
-
+    //public int Lift;
+    //public int Drop;
     // public int Push;
     // public int Pull;
     // ...
 
-    private int limit = 20;
+    public bool IsNeutral => true;//(Neutral >= Threshold);
+    public bool IsLeft => (Left >= Threshold);
+    public bool IsRight => (Right >= Threshold);
+    //public bool IsLift => (Left >= Threshold);
+    //public bool IsDrop => (Left >= Threshold);
+
 
     public Vector2 ToDirection()
     {
         Vector2 result = Vector2.zero;
-        if (Neutral > limit)
+        if (IsNeutral)
         {
-
         }
-        if (Left > limit)
+        if (IsLeft)
         {
             result.x = -1;
         }
-        if (Right > limit)
+        if (IsRight)
         {
             result.x = 1;
         }
-        if (Lift > limit)
+        /*
+        if (IsLift)
         {
             result.y = 1;
         }
-        if (Drop > limit)
+        if (IsDrop)
         {
             result.y = -1;
         }
+        */
 
         return result;
     }
 
     public override string ToString()
     {
-        return $"Neutral: {Neutral}, Left: {Left}, Right: {Right}, Lift: {Lift}, Drop: {Drop},";
+        return $"Neutral: {Neutral}, Left: {Left}, Right: {Right}";
     }
 }

@@ -41,7 +41,7 @@ public class ShootingBehavior : MonoBehaviour
 
         if (_bciInput != null && _bciInput.State == BciController.BciControllerState.Connected)
         {
-            if (_bciInput.Input.Neutral > 50)
+            if (_bciInput.Input.IsNeutral)
             {
                 IsShooting = true;
             }

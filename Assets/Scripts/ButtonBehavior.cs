@@ -15,10 +15,13 @@ public class ButtonBehavior : MonoBehaviour
     public Button SettingsButton;
     public Button ExitButton;
 
+    private BciController _bciInput;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        _bciInput = gameObject.GetComponent<BciController>();
+
         if (StartButton != null)
         {
             StartButton.onClick.AddListener(StartGame);
@@ -43,6 +46,17 @@ public class ButtonBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_bciInput != null && _bciInput.State == BciController.BciControllerState.Connected)
+        {
+            if (_bciInput.Input.IsRight)
+            {
+                StartGame();
+            }
+            if (_bciInput.Input.IsLeft)
+            {
+                ExitGame();
+            }
+        }
     }
 
 

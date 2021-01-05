@@ -10,6 +10,7 @@ public class GameManagerBehavior : MonoBehaviour
 
     public GameObject Timer;
     public GameObject EndScreen;
+    private EndScreenBehavior _endscreen;
 
     private GameTime gameTime;
 
@@ -17,6 +18,7 @@ public class GameManagerBehavior : MonoBehaviour
     void Start()
     {
         gameTime = Timer.GetComponent<GameTime>();
+        _endscreen = EndScreen.GetComponent<EndScreenBehavior>();
     }
 
     // Update is called once per frame
@@ -27,12 +29,12 @@ public class GameManagerBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (gameTime.GetTimeLeft() <= 0)
+        if (gameTime.GetTimeLeft() <= 0 && IsRunning)
         {
             IsRunning = false;
             ShowEndScreen();
         }
-        else
+        else if (gameTime.GetTimeLeft() > 0)
         {
             IsRunning = true;
         }
@@ -40,6 +42,9 @@ public class GameManagerBehavior : MonoBehaviour
 
     void ShowEndScreen()
     {
-        EndScreen.SetActive(true);
+        if (_endscreen != null)
+        {
+            _endscreen.ShowEndscreen();
+        }
     }
 }
