@@ -42,13 +42,13 @@ public class EndScreenBehavior : MonoBehaviour
         {
             if (gameObject.activeSelf && Time.time >= _inputDelay)
             {
-                Debug.Log("1");
+                // Debug.Log("1");
 
                 IsReady = true;
 
                 if (_bciInput != null && _bciInput.State == BciController.BciControllerState.Connected)
                 {
-                    Debug.Log("2");
+                    // Debug.Log("2");
                     if (_bciInput.Input.IsLeft)
                     {
                         StartNewGame();
@@ -83,8 +83,6 @@ public class EndScreenBehavior : MonoBehaviour
 
     public void ShowEndscreen()
     {
-        Debug.Log("Show endscreen.");
-
         gameObject.SetActive(true);
         _inputDelay = Time.time + _delay;
     }

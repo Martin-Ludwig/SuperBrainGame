@@ -54,7 +54,7 @@ public class ShootingBehavior : MonoBehaviour
         {
             if (IsShooting && (Time.time >= NextAction))
             {
-                Debug.Log("Shoot.");
+                // Debug.Log("Shoot.");
                 Shoot();
                 NextAction = Time.time + (Cooldown /1000);
             }
