@@ -37,3 +37,15 @@
 - Graphics by [SkyAdam](https://github.com/SkyAdam)
 - Programming by [Martin-Ludwig](https://github.com/Martin-Ludwig)
 - Project Lead by [Tom](https://github.com/Tom-G-r)
+
+---
+## Images
+
+### Menu
+![Startseite](docs/SBG_Menu.jpg)
+
+### Playing
+![Startseite](docs/SBG_Game.jpg)
+
+### Game Over
+![Startseite](docs/SBG_Score.jpg)
