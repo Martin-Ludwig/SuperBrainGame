@@ -20,7 +20,7 @@
  2. Train the left and right command.
  3. Node-Red
  4. [Install Node-RED](https://nodered.org/docs/getting-started/)
- 5. Import our flowchart: "**SuperBrainGame_Node-RED-Flow.json**"
+ 5. Import our flowchart: **[SuperBrainGame_Node-RED-Flow.json](SuperBrainGame_Node-RED-Flow.json)**
  6. In the flowchart change "BCI Profile Name" to your profile name.
 
 ## How to play
